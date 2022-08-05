@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<title>NEON BROUGHLIKE</title>
+
+<style>
+    canvas {
+        outline: 1px solid white;
+    }
+
+    body {
+        background-color: indigo;
+        text-align: center;
+        margin-top: 50px;
+    }   
+</style>
+
+<canvas></canvas>
+
+<script src="js/game.js"></script>
+<script src="js/map.js"></script>
+<script src="js/monster.js"></script>
+<script src="js/spell.js"></script>
+<script src="js/tile.js"></script>
+<script src="js/util.js"></script>
+
+<script>
+    const tileSize = 64;
+    const numTiles = 9;
+    const uiWidth = 4;
+    
+    // player x & y coordinates
+    let x = y = 0;
+    // MDN 'Image' desc: The Image() constructor creates a new HTMLImageElement instance. It is functionally equivalent to document.createElement('img').
+    spritesheet = new Image();
+    spritesheet.src = 'spritesheet.png';
+
+
+    // 'onkeydown' syntax: onkeydown = (event) => { };
+    // MDN desc: The keydown event is fired when a key is pressed.
+    document.querySelector('html').onkeydown = function(e) {
+        if(e.key == 'w') y--;
+        if(e.key == 's') y++;
+        if(e.key == 'a') x--;
+        if(e.key == 'd') x++;
+    };
+
+    // 'setInterval' is a method that repeats call on a fixed time (second parameter)
+    setInterval(draw, 15);
+
+    setupCanvas();
+
+    generateLevel();
+
+    startingTile = randomPassableTile();
+    x = startingTile.x;
+    y = startingTile.y;
+</script>
