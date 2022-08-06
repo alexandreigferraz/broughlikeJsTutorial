@@ -2,7 +2,7 @@
 
 My code along and studies for the BroughLike JS tutorial.
 
-The full and amazing tutorial by Michael Brough can be found here: https://nluqo.github.io/broughlike-tutorial/stage0.html
+The full and amazing tutorial by Jeremiah Reid (https://twitter.com/trash_impostor) can be found here: https://nluqo.github.io/broughlike-tutorial/stage0.html
 
 The objective of this is trying to keep improving on my basic knowledge of JavaScript and coding in general. Months ago I finished this tutorial, however, I could understand almost zero of all things I typed. Now that I finished an introductory course about JavaScript and one that covered things with a bit more of detail, I decided to come back to it and see how I could understand it.
 
