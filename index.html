@@ -23,24 +23,23 @@
 <script src="js/util.js"></script>
 
 <script>
-    const tileSize = 64;
+    const tileSize = 64; // not really sure why the tileSize is 64 while each sprite is a 16 pixels square. If we make it a small number like 32, the size of each sprite will be smaller. This is defining something like a 'zoom' on each sprite being drawn. I'm pretty sure it's associated with drawImage() parameters. Will check them later on MDN
     const numTiles = 9;
     const uiWidth = 4;
+    let level = 1; // number of monsters will be based on which level the player is at
     
-    // player x & y coordinates
-    let x = y = 0;
-    // MDN 'Image' desc: The Image() constructor creates a new HTMLImageElement instance. It is functionally equivalent to document.createElement('img').
+    // MDN: 'Image' desc: The Image() constructor creates a new HTMLImageElement instance. It is functionally equivalent to document.createElement('img').
     spritesheet = new Image();
     spritesheet.src = 'spritesheet.png';
 
 
     // 'onkeydown' syntax: onkeydown = (event) => { };
-    // MDN desc: The keydown event is fired when a key is pressed.
+    // MDN: The keydown event is fired when a key is pressed.
     document.querySelector('html').onkeydown = function(e) {
-        if(e.key == 'w') y--;
-        if(e.key == 's') y++;
-        if(e.key == 'a') x--;
-        if(e.key == 'd') x++;
+        if(e.key == 'w') player.tryMove(0, -1); // since player is now an instance of Player (a child of Monster)
+        if(e.key == 's') player.tryMove(0, 1);  // and has his on methods and logic, we start using its methods
+        if(e.key == 'a') player.tryMove(-1, 0); // to check for walls and monsters
+        if(e.key == 'd') player.tryMove(1, 0);
     };
 
     // 'setInterval' is a method that repeats call on a fixed time (second parameter)
@@ -50,7 +49,6 @@
 
     generateLevel();
 
-    startingTile = randomPassableTile();
-    x = startingTile.x;
-    y = startingTile.y;
+    // since the sprite and HP are set in the constructor for the Player class, we only need to pass in a valid tile, which we achieve with 'randomPassableTile()'
+    player = new Player(randomPassableTile());
 </script>

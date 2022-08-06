@@ -9,7 +9,7 @@ function setupCanvas() {
     canvas.style.width = canvas.width + 'px'; // uses the variable to actually set up the width and height of the canvas element
     canvas.style.height = canvas.height + 'px'; // same as above
     
-    // TO PROPERLY DISPLAY PIXEL ART
+    // TO PROPERLY DISPLAY PIXEL ART (no foggy images)
     ctx.imageSmoothingEnabled = false;
 };
 
@@ -45,6 +45,11 @@ function draw() {
         }
     };
 
+    for(let m = 0; m < monsters.length; m++) {
+        monsters[m].draw();
+    };
+
     // draw player sprite
-    drawSprite(0, x, y)
+    // REMOVED drawSprite(0, x, y)
+    player.draw(); // since now player is an objected created using the class constructor, we use its own method
 };

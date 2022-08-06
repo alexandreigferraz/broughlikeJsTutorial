@@ -2,6 +2,8 @@ function generateLevel() {
     tryTo('generate map', function() {
         return generateTiles() == randomPassableTile().getConnectedTiles().length;
     });
+
+    generateMonsters();
 };
 
 function generateTiles() {
@@ -46,4 +48,18 @@ function randomPassableTile() {
         // We can, as an example: console.log(tiles[2][1].passable); which will return 'true' or 'false' depending on what object is stored at these coordinates inside the array
     });
     return tile;
+};
+
+function generateMonsters() {
+    monsters = [];
+    let numMonsters = level + 1;
+    for(let m = 0; m < numMonsters; m++) {
+        spawnMonster();
+    }
+};
+
+function spawnMonster() {
+    let monsterType = shuffle([Bird, Snake, Tank, Eater, Jester])[0];
+    let monster = new monsterType(randomPassableTile());
+    monsters.push(monster);
 };
