@@ -6,6 +6,18 @@ class Tile{
         this.sprite = sprite;
         this.passable = passable;
     };
+    
+    replace(newTileType) {
+        tiles[this.x][this.y] = new newTileType(this.x, this.y);
+        return tiles[this.x][this.y];
+    };
+
+    // helper function used on doStuff() for Monster movement
+    dist(other) {
+        // MDN: Math.abs() function returns the absolute value of a number.
+        // Math.abs('-1'); Outputs: 1
+        return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+    };
 
     getNeighbor(dx, dy) {
         return getTile(this.x + dx, this.y + dy)

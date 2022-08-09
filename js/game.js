@@ -53,3 +53,14 @@ function draw() {
     // REMOVED drawSprite(0, x, y)
     player.draw(); // since now player is an objected created using the class constructor, we use its own method
 };
+
+// this used to call doStuff() for each monster stored in 'monsters []' 
+function tick() {
+    for(let k = monsters.length -1; k >= 0; k--) { // the list is checked in reverse so the items can be safely deleted during the process 
+        if(!monsters[k].dead) {     // if they don't have a 'dead' key
+            monsters[k].update();   // does this - which will call doStuff()
+        } else {
+            monsters.splice(k, 1);  // if the monster being checked has the 'dead' key, removes it from the list
+        }
+    }
+}
