@@ -4,6 +4,10 @@ function generateLevel() {
     });
 
     generateMonsters();
+
+    for (let treasure = 0; treasure < 3; treasure++) {
+        randomPassableTile().treasure = true;
+    }
 };
 
 function generateTiles() {

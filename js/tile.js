@@ -48,18 +48,48 @@ class Tile{
             frontier = frontier.concat(neighbors);
         };
         return connectedTiles;
-    }
+    };
 
     draw(){
         drawSprite(this.sprite, this.x, this.y)
+
+        if(this.treasure) {
+            drawSprite(14, this.x, this.y);
+        };
+
+        if(this.effectCounter){     // we draw the effect sprite as long this.effectCounter > 0 (since a 0 value will return false)
+            this.effectCounter--;
+            ctx.globalAlpha = this.effectCounter/30;
+            drawSprite(this.effect, this.x, this.y);
+            ctx.globalAlpha = 1;
+        };
     };
+
+    setEffect(effectSprite){
+        this.effect = effectSprite;
+        this.effectCounter = 30;
+    }
+
 };
 
 // Both 'Floor' and 'Wall' are childs created from 'Tile'
 class Floor extends Tile { // 'extends' keyword is used to create a class child from 'Tile'
     constructor(x, y) {         // the constructor of 'Floor' only requires x & y since the other two parameters for the parent class will always be the same for this type of tyle
         super(x, y, 2, true);   // call the super class constructor and pass in the parameters from 'constructor' above and complete the parameters that will always be used in this type of child
-    }
+    };
+
+    stepOn(monster){
+        if (monster.isPlayer && this.treasure) {
+            score++;
+            if (score % 3 == 0 && numSpells < 9) {
+                numSpells++;
+                player.addSpell();
+            }
+            playSound('treasure')
+            this.treasure = false;
+            spawnMonster();
+        }
+    };
 };
 
 class Wall extends Tile {
@@ -67,3 +97,22 @@ class Wall extends Tile {
         super(x, y, 3, false);
     }
 };
+
+class Exit extends Tile {
+    constructor(x, y) {
+        super(x, y, 13, true);
+    }
+
+    stepOn(monster) {
+        if(monster.isPlayer) {
+            playSound('newLevel');
+            if(level == numLevels) {
+                addScore(score, true);
+                showTitle();
+            } else {
+                level++;
+                startLevel(Math.min(maxHp, player.hp+1));
+            }
+        }
+    }
+}

@@ -23,24 +23,44 @@
 <script src="js/util.js"></script>
 
 <script>
-    const tileSize = 64; // not really sure why the tileSize is 64 while each sprite is a 16 pixels square. If we make it a small number like 32, the size of each sprite will be smaller. This is defining something like a 'zoom' on each sprite being drawn. I'm pretty sure it's associated with drawImage() parameters. Will check them later on MDN
-    const numTiles = 9;
+    const tileSize = 48; // not really sure why the tileSize is 64 while each sprite is a 16 pixels square. If we make it a small number like 32, the size of each sprite will be smaller. This is defining something like a 'zoom' on each sprite being drawn. I'm pretty sure it's associated with drawImage() parameters. Will check them later on MDN
+    const numTiles = 18;
     const uiWidth = 4;
     let level = 1; // number of monsters will be based on which level the player is at
-    const maxHP = 6;
+    const maxHp = 6;
     
     // MDN: 'Image' desc: The Image() constructor creates a new HTMLImageElement instance. It is functionally equivalent to document.createElement('img').
     spritesheet = new Image();
     spritesheet.src = 'spritesheet.png';
+    // W3S: onload is most often used within the <body> element to execute a script once a web page has completely loaded all content (including images, script files, CSS files, etc.)
+    spritesheet.onload = showTitle;         // Gamestate handlers
+                                            //
+    let gameState = 'loading';                  // ^^ 
+
+
+    const startingHp = 3;     // used to calculate starting hp on each level
+    const numLevels = 8;      // game goes back go gameState 'title' after level 6
+
+    let shakeAmount = 0;
+    let shakeX = 0;
+    let shakeY = 0;
 
 
     // 'onkeydown' syntax: onkeydown = (event) => { };
     // MDN: The keydown event is fired when a key is pressed.
     document.querySelector('html').onkeydown = function(e) {
-        if(e.key == 'w') player.tryMove(0, -1); // since player is now an instance of Player (a child of Monster)
-        if(e.key == 's') player.tryMove(0, 1);  // and has his on methods and logic, we start using its methods
-        if(e.key == 'a') player.tryMove(-1, 0); // to check for walls and monsters
-        if(e.key == 'd') player.tryMove(1, 0);
+        if(gameState == 'title') {
+            startGame();
+        } else if (gameState == 'dead') {
+            showTitle();
+        } else if (gameState == 'running') {
+            if(e.key == 'w') player.tryMove(0, -1); // since player is now an instance of Player (a child of Monster)
+            if(e.key == 's') player.tryMove(0, 1);  // and has his on methods and logic, we start using its methods
+            if(e.key == 'a') player.tryMove(-1, 0); // to check for walls and monsters
+            if(e.key == 'd') player.tryMove(1, 0);
+
+            if(e.key >= 1 && e.key <= 9) player.castSpell(e.key -1) // spells
+        };
     };
 
     // 'setInterval' is a method that repeats call on a fixed time (second parameter)
@@ -48,8 +68,7 @@
 
     setupCanvas();
 
-    generateLevel();
-
+    initSounds();   // on initSounds we load all our sounds and put them inside an object 'sounds'
     // since the sprite and HP are set in the constructor for the Player class, we only need to pass in a valid tile, which we achieve with 'randomPassableTile()'
-    player = new Player(randomPassableTile());
+    // player = new Player(randomPassableTile());
 </script>
