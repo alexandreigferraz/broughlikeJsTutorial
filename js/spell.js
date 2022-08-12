@@ -118,7 +118,7 @@ spells = {
             [1, 1]
         ];
         for(let k=0; k < directions.length; k++) {
-            boltTravel(directions[k], 17, 3);
+            boltTravel(directions[k], 16, 3);
         }
     }
 };
